@@ -3,9 +3,9 @@ import { setAdminSession, verifyAdmin } from "@/lib/auth";
 
 async function login(formData: FormData) {
   "use server";
-  const email = String(formData.get("email") || "");
+  const loginId = String(formData.get("loginId") || "");
   const password = String(formData.get("password") || "");
-  if (await verifyAdmin(email, password)) {
+  if (await verifyAdmin(loginId, password)) {
     setAdminSession();
     redirect("/admin");
   }
@@ -19,8 +19,8 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
         <h1 className="text-2xl font-bold">Admin login</h1>
         <p className="mt-2 text-sm text-slate-600">Use the credentials configured in your environment.</p>
         <label className="mt-6 block text-sm font-semibold">
-          Email
-          <input className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3" name="email" type="email" required />
+          Login ID
+          <input className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3" name="loginId" type="text" required />
         </label>
         <label className="mt-4 block text-sm font-semibold">
           Password

@@ -4,12 +4,12 @@ import bcrypt from "bcryptjs";
 
 const cookieName = "ccpf_admin";
 
-export async function verifyAdmin(email: string, password: string) {
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@example.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "ChangeMe123!";
+export async function verifyAdmin(loginId: string, password: string) {
+  const adminLogin = process.env.ADMIN_LOGIN || process.env.ADMIN_EMAIL || "saginin";
+  const adminPassword = process.env.ADMIN_PASSWORD || "638425@Af";
   const adminHash = process.env.ADMIN_PASSWORD_HASH;
 
-  if (email !== adminEmail) return false;
+  if (loginId !== adminLogin) return false;
   if (adminHash) return bcrypt.compare(password, adminHash);
   return password === adminPassword;
 }

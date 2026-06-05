@@ -40,6 +40,7 @@ It promotes the June 28, 2026 masterclass at 10:00 AM Mountain Time. The session
 
 Required for admin:
 
+- `ADMIN_LOGIN`
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
 - `ADMIN_SESSION_SECRET`
@@ -108,8 +109,8 @@ https://dr-cyber.onrender.com/admin
 
 Default credentials if no env is set:
 
-- Email: `admin@example.com`
-- Password: `ChangeMe123!`
+- Login ID: `saginin`
+- Password: `638425@Af`
 
 Change these before deployment.
 
