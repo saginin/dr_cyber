@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id                String         @id @default(cuid())
+  firstName         String         @map("first_name")
+  lastName          String         @map("last_name")
+  email             String         @unique
+  phone             String?
+  currentProfession String         @map("current_profession")
+  city              String
+  country           String
+  startTimeline     String         @map("start_timeline")
+  pathwayResult     String         @map("pathway_result")
+  pathwayScoreJson  Json           @map("pathway_score_json")
+  source            String?
+  utmSource         String?        @map("utm_source")
+  utmMedium         String?        @map("utm_medium")
+  utmCampaign       String?        @map("utm_campaign")
+  utmContent        String?        @map("utm_content")
+  utmTerm           String?        @map("utm_term")
+  tag               String?
+  consent           Boolean        @default(false)
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+  quizResponses     QuizResponse[]
+  pipelineStages    PipelineStage[]
+  emailLogs         EmailLog[]
+  smsLogs           SmsLog[]
+
+  @@map("leads")
+}
+
+model QuizResponse {
+  id              String   @id @default(cuid())
+  leadId          String   @map("lead_id")
+  questionId      String   @map("question_id")
+  questionText    String   @map("question_text")
+  selectedAnswer  String   @map("selected_answer")
+  answerScoreJson Json     @map("answer_score_json")
+  createdAt       DateTime @default(now()) @map("created_at")
+  lead            Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("quiz_responses")
+}
+
+model PipelineStage {
+  id             String    @id @default(cuid())
+  leadId         String    @map("lead_id")
+  stage          String
+  status         String
+  notes          String?
+  assignedTo     String?   @map("assigned_to")
+  lastContactedAt DateTime? @map("last_contacted_at")
+  nextFollowUpAt DateTime? @map("next_follow_up_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  lead           Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("pipeline_stages")
+}
+
+model EmailLog {
+  id        String    @id @default(cuid())
+  leadId    String    @map("lead_id")
+  emailType String    @map("email_type")
+  subject   String
+  status    String
+  sentAt    DateTime? @map("sent_at")
+  openedAt  DateTime? @map("opened_at")
+  clickedAt DateTime? @map("clicked_at")
+  lead      Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("email_logs")
+}
+
+model SmsLog {
+  id      String    @id @default(cuid())
+  leadId  String    @map("lead_id")
+  smsType String    @map("sms_type")
+  message String
+  status  String
+  sentAt  DateTime? @map("sent_at")
+  lead    Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("sms_logs")
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("admin_users")
+}
+
+model AutomationSetting {
+  id           String   @id @default(cuid())
+  settingKey   String   @unique @map("setting_key")
+  settingValue String   @map("setting_value")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("automation_settings")
+}

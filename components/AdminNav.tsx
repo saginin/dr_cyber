@@ -1,0 +1,17 @@
+import Link from "next/link";
+
+export function AdminNav() {
+  return (
+    <nav className="border-b border-slate-200 bg-white">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <Link className="font-bold" href="/admin">
+          Cyber Pathway Admin
+        </Link>
+        <div className="flex gap-4 text-sm font-semibold text-slate-600">
+          <Link href="/admin/leads">Leads</Link>
+          <Link href="/admin/settings">Settings</Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
