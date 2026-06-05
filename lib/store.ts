@@ -209,17 +209,46 @@ export async function getMetrics() {
   const quizCompletions = store.events.filter((event) => event.event === "Quiz Completed").length;
   const callsBooked = store.pipelineStages.filter((stage) => stage.stage === "Call Booked").length;
   const enrolled = store.pipelineStages.filter((stage) => stage.stage === "Enrolled").length;
+  const now = Date.now();
+  const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+  const leadsWithPipeline = store.leads.map((lead) => ({
+    ...lead,
+    pipeline: store.pipelineStages.find((stage) => stage.leadId === lead.id)
+  }));
+  const newThisWeek = store.leads.filter((lead) => new Date(lead.createdAt).getTime() >= sevenDaysAgo).length;
+  const needsFollowUp = leadsWithPipeline.filter((lead) => {
+    if (!lead.pipeline?.nextFollowUpAt) return false;
+    return new Date(lead.pipeline.nextFollowUpAt).getTime() <= now;
+  }).length;
   const leadsByPathway = store.leads.reduce<Record<string, number>>((acc, lead) => {
     acc[lead.pathwayResult] = (acc[lead.pathwayResult] || 0) + 1;
     return acc;
   }, {});
+  const leadsByStage = leadsWithPipeline.reduce<Record<string, number>>((acc, lead) => {
+    const stage = lead.pipeline?.stage || "New Lead";
+    acc[stage] = (acc[stage] || 0) + 1;
+    return acc;
+  }, {});
+  const leadsByTimeline = store.leads.reduce<Record<string, number>>((acc, lead) => {
+    acc[lead.startTimeline] = (acc[lead.startTimeline] || 0) + 1;
+    return acc;
+  }, {});
+  const upcomingFollowUps = leadsWithPipeline
+    .filter((lead) => lead.pipeline?.nextFollowUpAt)
+    .sort((a, b) => String(a.pipeline?.nextFollowUpAt).localeCompare(String(b.pipeline?.nextFollowUpAt)))
+    .slice(0, 6);
   return {
     totalLeads,
     quizCompletions,
     callsBooked,
     enrolled,
+    newThisWeek,
+    needsFollowUp,
     conversionRate: quizCompletions ? Math.round((callsBooked / quizCompletions) * 100) : 0,
     leadsByPathway,
-    recentLeads: store.leads.slice(-8).reverse()
+    leadsByStage,
+    leadsByTimeline,
+    upcomingFollowUps,
+    recentLeads: leadsWithPipeline.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 10)
   };
 }
