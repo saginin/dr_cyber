@@ -111,6 +111,7 @@ Default credentials if no env is set:
 
 - Login ID: `saginin`
 - Password: `638425@Af`
+- Admin email: `saginin@gmail.com`
 
 Change these before deployment.
 

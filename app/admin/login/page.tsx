@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { setAdminSession, verifyAdmin } from "@/lib/auth";
 
 async function login(formData: FormData) {
@@ -12,7 +13,7 @@ async function login(formData: FormData) {
   redirect("/admin/login?error=1");
 }
 
-export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
+export default function LoginPage({ searchParams }: { searchParams: { error?: string; reset?: string } }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-navy px-4">
       <form action={login} className="w-full max-w-md rounded-lg border border-white/10 bg-white p-6 shadow-glow">
@@ -26,6 +27,16 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           Password
           <input className="mt-2 w-full rounded-md border border-slate-300 px-3 py-3" name="password" type="password" required />
         </label>
+        <div className="mt-3 text-right">
+          <Link className="text-sm font-semibold text-blueglow hover:underline" href="/admin/forgot-password">
+            Forgot password?
+          </Link>
+        </div>
+        {searchParams.reset ? (
+          <p className="mt-4 rounded bg-mint/10 p-3 text-sm text-emerald-700">
+            Password reset complete. Sign in with your new password.
+          </p>
+        ) : null}
         {searchParams.error ? <p className="mt-4 rounded bg-red-50 p-3 text-sm text-red-700">Invalid login.</p> : null}
         <button className="mt-6 w-full rounded-md bg-cyan px-5 py-3 font-bold text-navy hover:bg-mint" type="submit">
           Sign in

@@ -1,13 +1,14 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
+import { getAdminLogin, getStoredAdminPasswordHash } from "@/lib/adminPasswordReset";
 
 const cookieName = "ccpf_admin";
 
 export async function verifyAdmin(loginId: string, password: string) {
-  const adminLogin = process.env.ADMIN_LOGIN || process.env.ADMIN_EMAIL || "saginin";
+  const adminLogin = getAdminLogin();
   const adminPassword = process.env.ADMIN_PASSWORD || "638425@Af";
-  const adminHash = process.env.ADMIN_PASSWORD_HASH;
+  const adminHash = (await getStoredAdminPasswordHash()) || process.env.ADMIN_PASSWORD_HASH;
 
   if (loginId !== adminLogin) return false;
   if (adminHash) return bcrypt.compare(password, adminHash);
