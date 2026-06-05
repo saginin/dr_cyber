@@ -90,11 +90,30 @@ export function QuizApp({ questions, searchParams }: Props) {
 
   return (
     <main className="min-h-screen bg-navy px-4 py-6 text-white">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-6xl">
         <a className="text-sm text-slate-300 hover:text-white" href="/">
           Back to home
         </a>
-        <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-5 shadow-glow md:p-8">
+        <div className="mt-6 grid gap-6 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+          <aside className="overflow-hidden rounded-lg border border-white/10 bg-white/5 shadow-glow">
+            <img
+              className="aspect-[16/10] w-full object-cover lg:aspect-[4/5]"
+              src={step < questions.length ? "/images/quiz-process.png" : "/images/mentor-consultation.png"}
+              alt={
+                step < questions.length
+                  ? "Cyber career pathway quiz process"
+                  : "Mentor reviewing a career roadmap with a learner"
+              }
+            />
+            <div className="p-5">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mint">Cyber Career Pathway Quiz</p>
+              <p className="mt-2 text-sm text-slate-300">
+                Ten answers create a pathway score, skill match, and recommended roadmap.
+              </p>
+            </div>
+          </aside>
+
+          <div className="rounded-lg border border-white/10 bg-white/5 p-5 shadow-glow md:p-8">
           <div className="mb-6">
             <div className="mb-2 flex justify-between text-sm text-slate-300">
               <span>{step < questions.length ? `Question ${step + 1} of ${questions.length}` : "Lead details"}</span>
@@ -185,6 +204,7 @@ export function QuizApp({ questions, searchParams }: Props) {
               </button>
             </form>
           )}
+          </div>
         </div>
       </div>
     </main>
