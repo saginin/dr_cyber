@@ -26,6 +26,16 @@ Open `http://localhost:3000`.
 
 The MVP uses a local JSON store at `.data/store.json` so the funnel works immediately. For PostgreSQL/Supabase, set `DATABASE_URL`, run Prisma migration, and use `prisma/schema.prisma` plus `prisma/migration.sql` as the database reference.
 
+## Masterclass Page
+
+The free webinar page is available at:
+
+```text
+/masterclass
+```
+
+It promotes the June 28, 2026 masterclass at 10:00 AM Mountain Time. The session is a 1-hour program exploration and Q&A with a bonus at the end. `MASTERCLASS_LINK` defaults to `/masterclass`, so result-page CTAs route there automatically.
+
 ## Environment Variables
 
 Required for admin:
