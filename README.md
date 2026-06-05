@@ -135,7 +135,7 @@ If credentials are missing, submissions continue and the SMS log records `missin
 Set:
 
 ```env
-BOOKING_LINK=https://calendly.com/your-team/cyber-career-roadmap-call
+BOOKING_LINK=https://calendly.com/saginin/30min
 ```
 
 Point Calendly webhooks to:
