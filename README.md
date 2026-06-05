@@ -22,7 +22,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000` for local development.
 
 The MVP uses a local JSON store at `.data/store.json` so the funnel works immediately. For PostgreSQL/Supabase, set `DATABASE_URL`, run Prisma migration, and use `prisma/schema.prisma` plus `prisma/migration.sql` as the database reference.
 
@@ -94,7 +94,17 @@ The SQL reference is in `prisma/migration.sql`.
 
 ## Admin Login
 
-Visit `http://localhost:3000/admin/login`.
+Local admin login:
+
+```text
+http://localhost:3000/admin/login
+```
+
+Deployed admin dashboard:
+
+```text
+https://dr-cyber.onrender.com/admin
+```
 
 Default credentials if no env is set:
 

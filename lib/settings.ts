@@ -1,6 +1,6 @@
 export function appSettings() {
   return {
-    appUrl: process.env.APP_URL || "http://localhost:3000",
+    appUrl: process.env.APP_URL || "https://dr-cyber.onrender.com",
     bookingLink:
       process.env.BOOKING_LINK || "https://calendly.com/saginin/30min",
     masterclassLink: process.env.MASTERCLASS_LINK || "/masterclass",
